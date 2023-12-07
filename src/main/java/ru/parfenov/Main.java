@@ -1,7 +1,14 @@
 package ru.parfenov;
 
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+import java.io.IOException;
+
+@SpringBootApplication
 public class Main {
-    public static void main(String[] args) {
-        System.out.println("Hello world!");
+
+    public static void main(String[] args) throws IOException {
+        SpringApplication.run(Main.class, args);
     }
 }
