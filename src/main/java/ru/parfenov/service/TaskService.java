@@ -62,16 +62,14 @@ public class TaskService {
         repository.save(task);
     }
 
-    public Task update(int taskId, TaskDtoIn taskDtoIn) {
+    public void update(int taskId, TaskDtoIn taskDtoIn) {
         Task task = findById(taskId);
         if (!"Задание не найдено!".equals(task.getDescription())) {
             task.setDescription(taskDtoIn.getDescription());
             task.setStatus(Status.findById(taskDtoIn.getStatusId()));
             task.setPriority(Priority.findById(taskDtoIn.getPriorityId()));
             task.setExecutor(userService.findById(taskDtoIn.getExecutorId()));
-            return repository.save(task);
-        } else {
-            return null;
+            repository.save(task);
         }
     }
 

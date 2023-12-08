@@ -6,10 +6,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.parfenov.dto.TaskDtoIn;
 import ru.parfenov.dto.TaskDtoOut;
-import ru.parfenov.model.Task;
 import ru.parfenov.service.TaskService;
 
-import java.sql.SQLException;
 import java.util.List;
 
 @AllArgsConstructor
@@ -24,13 +22,13 @@ public class TaskController {
     }
 
     @PostMapping("/new")
-    public ResponseEntity<Void> create(@RequestBody TaskDtoIn task) throws SQLException {
+    public ResponseEntity<Void> create(@RequestBody TaskDtoIn task) {
         taskService.create(task);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
     @PostMapping("/{id}/update")
-    public ResponseEntity<Void> update(@PathVariable("id") int id, TaskDtoIn task) {
+    public ResponseEntity<Void> update(@PathVariable("id") int id, @RequestBody TaskDtoIn task) {
         taskService.update(id, task);
         return new ResponseEntity<>(HttpStatus.OK);
     }
