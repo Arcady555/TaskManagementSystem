@@ -58,18 +58,28 @@ public class TaskService {
                 Priority.findById(taskDtoIn.getPriorityId()),
                 userService.findById(taskDtoIn.getExecutorId()),
                 new ArrayList<>()
-                );
+        );
         repository.save(task);
     }
 
     public void update(int taskId, TaskDtoIn taskDtoIn) {
         Task task = findById(taskId);
-        if (!"Задание не найдено!".equals(task.getDescription())) {
-            task.setDescription(taskDtoIn.getDescription());
-            task.setStatus(Status.findById(taskDtoIn.getStatusId()));
-            task.setPriority(Priority.findById(taskDtoIn.getPriorityId()));
-            task.setExecutor(userService.findById(taskDtoIn.getExecutorId()));
+        if (!"Задание не найдено!".equals(task.getDescription()) && taskDtoIn.getStatusId() != 3) {
+            if (taskDtoIn.getDescription() != null) {
+                task.setDescription(taskDtoIn.getDescription());
+            }
+            if (taskDtoIn.getStatusId() != 0) {
+                task.setStatus(Status.findById(taskDtoIn.getStatusId()));
+            }
+            if (taskDtoIn.getPriorityId() != 0) {
+                task.setPriority(Priority.findById(taskDtoIn.getPriorityId()));
+            }
+            if (taskDtoIn.getExecutorId() != 0) {
+                task.setExecutor(userService.findById(taskDtoIn.getExecutorId()));
+                task.setStatus(Status.IN_PROGRESS);
+            }
             repository.save(task);
+            System.out.println(taskDtoIn.getStatusId());
         }
     }
 

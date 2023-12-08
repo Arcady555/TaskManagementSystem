@@ -4,16 +4,13 @@ import lombok.AllArgsConstructor;
 
 @AllArgsConstructor
 public enum Priority {
-    LOW(0, "Низкий"),
-    MIDDLE(1, "Средний"),
-    HIGH(2, "Высокий");
+    NOT(0, "Нет"),
+    LOW(1, "Низкий"),
+    MIDDLE(2, "Средний"),
+    HIGH(3, "Высокий");
 
     private final int id;
     private final String info;
-
- //   public int getId() {
-       // return id;
- //   }
 
     public String getInfo() {
         return info;

@@ -27,13 +27,13 @@ public class TaskController {
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
-    @PostMapping("/{id}/update")
+    @PutMapping("/{id}/update")
     public ResponseEntity<Void> update(@PathVariable("id") int id, @RequestBody TaskDtoIn task) {
         taskService.update(id, task);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @PostMapping("/{id}/delete")
+    @DeleteMapping("/{id}/delete")
     public ResponseEntity<Void> delete(@PathVariable("id") int id) {
         taskService.delete(id);
         return new ResponseEntity<>(HttpStatus.OK);

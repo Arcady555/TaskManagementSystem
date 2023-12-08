@@ -4,9 +4,10 @@ import lombok.AllArgsConstructor;
 
 @AllArgsConstructor
 public enum Status {
-    IN_WAIT(0, "В ожидании"),
-    IN_PROGRESS(1, "В процессе"),
-    COMPLETED(2, "Завершено");
+    NOT(0, "Нет"),
+    IN_WAIT(1, "В ожидании"),
+    IN_PROGRESS(2, "В процессе"),
+    COMPLETED(3, "Завершено");
 
     private final int id;
     private final String info;

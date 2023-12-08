@@ -7,9 +7,9 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserDto {
+public class UserDtoIn {
     private int id;
     private String name;
-    private int createdTasks;
-    private int executeTasks;
+    private String email;
+    private String password;
 }
