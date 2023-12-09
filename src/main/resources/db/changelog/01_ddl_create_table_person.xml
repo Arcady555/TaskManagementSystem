@@ -7,12 +7,14 @@
     <property name="now" value="now()" dbms="postgresql"/>
     <changeSet id="01" author="Arcady555">
 
-        <createTable tableName="users">
+        <createTable tableName="person">
             <column autoIncrement="true" name="id" type="int">
                 <constraints unique="true" nullable="false" primaryKey="true"/>
             </column>
             <column name="name" type="varchar(2000)"/>
-            <column name="email" type="varchar(2000)"/>
+            <column name="email" type="varchar(2000)">
+                <constraints unique="true" nullable="false"/>
+            </column>
             <column name="password" type="varchar(2000)"/>
         </createTable>
 

@@ -29,11 +29,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.cors().and().csrf().disable().authorizeRequests()
                 .antMatchers(HttpMethod.POST, Utility.SIGN_UP_URL).permitAll()
+                .antMatchers(HttpMethod.GET, Utility.ALL_TASKS_URL).permitAll()
+                .antMatchers(HttpMethod.GET, Utility.ALL_PERSONS_URL).permitAll()
+                .antMatchers(HttpMethod.GET, Utility.TASK_COMMENTS_URL).permitAll()
+                .antMatchers(HttpMethod.GET, Utility.TASK_NEW_COMMENT_URL).permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .addFilter(new JWTAuthenticationFilter(authenticationManager()))
                 .addFilter(new JWTAuthorizationFilter(authenticationManager()))
-                /* this disables session creation on Spring Security */
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
     }
 

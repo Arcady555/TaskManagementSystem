@@ -4,7 +4,6 @@ import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import ru.parfenov.dto.PersonDtoIn;
 import ru.parfenov.dto.PersonDtoOut;
 import ru.parfenov.service.PersonService;
 
@@ -21,15 +20,9 @@ public class PersonController {
         return personService.findAll();
     }
 
-    @GetMapping("/{id")
+    @GetMapping("/{id}")
     public ResponseEntity<PersonDtoOut> getPerson(@PathVariable("id") int id) {
         personService.findById(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
-
-  /*  @PostMapping("/create")
-    public ResponseEntity<Void> create(@RequestBody PersonDtoIn user) {
-        personService.create(user);
-        return new ResponseEntity<>(HttpStatus.OK);
-    } */
 }

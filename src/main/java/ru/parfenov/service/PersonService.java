@@ -2,7 +2,6 @@ package ru.parfenov.service;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
-import ru.parfenov.dto.PersonDtoIn;
 import ru.parfenov.dto.PersonDtoOut;
 import ru.parfenov.model.Person;
 import ru.parfenov.repository.PersonRepository;
@@ -34,14 +33,6 @@ public class PersonService {
         Optional<Person> rsl = repository.findById(id);
         return rsl.orElseGet(() -> findById(1));
     }
-
-   /* public Person create(PersonDtoIn personDtoIn) {
-        Person person = new Person();
-        person.setName(personDtoIn.getName());
-        person.setEmail(personDtoIn.getEmail());
-        person.setPassword(personDtoIn.getPassword());
-        return repository.save(person);
-    } */
 
     public void delete(Person person) {
         repository.delete(person);

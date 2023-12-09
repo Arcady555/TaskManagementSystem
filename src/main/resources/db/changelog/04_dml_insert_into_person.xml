@@ -5,7 +5,7 @@
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
          http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
     <changeSet id="09" author="Arcady555">
-        <insert tableName="users">
+        <insert tableName="person">
             <column name="id" value="1"/>
             <column name="name" value="не назначен"/>
             <column name="email" value=""/>

@@ -1,6 +1,7 @@
 package ru.parfenov.service;
 
 import lombok.AllArgsConstructor;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import ru.parfenov.dto.TaskDtoIn;
 import ru.parfenov.dto.TaskDtoOut;
@@ -61,39 +62,45 @@ public class TaskService {
         repository.save(task);
     }
 
-    public void update(int taskId, TaskDtoIn taskDtoIn) {
+    public void update(int taskId, TaskDtoIn taskDtoIn, Authentication authentication) {
         Task task = findById(taskId);
-        if (!"Задание не найдено!".equals(task.getDescription()) && taskDtoIn.getStatusId() != 3) {
-            if (taskDtoIn.getDescription() != null) {
-                task.setDescription(taskDtoIn.getDescription());
+        if (authentication.getName().equals(task.getAuthor().getEmail())) {
+            if (!"Задание не найдено!".equals(task.getDescription()) && taskDtoIn.getStatusId() != 3) {
+                if (taskDtoIn.getDescription() != null) {
+                    task.setDescription(taskDtoIn.getDescription());
+                }
+                if (taskDtoIn.getStatusId() != 0) {
+                    task.setStatus(Status.findById(taskDtoIn.getStatusId()));
+                }
+                if (taskDtoIn.getPriorityId() != 0) {
+                    task.setPriority(Priority.findById(taskDtoIn.getPriorityId()));
+                }
+                if (taskDtoIn.getExecutorId() != 0) {
+                    task.setExecutor(personService.findById(taskDtoIn.getExecutorId()));
+                }
+                repository.save(task);
             }
-            if (taskDtoIn.getStatusId() != 0) {
-                task.setStatus(Status.findById(taskDtoIn.getStatusId()));
-            }
-            if (taskDtoIn.getPriorityId() != 0) {
-                task.setPriority(Priority.findById(taskDtoIn.getPriorityId()));
-            }
-            if (taskDtoIn.getExecutorId() != 0) {
-                task.setExecutor(personService.findById(taskDtoIn.getExecutorId()));
-            }
-            repository.save(task);
         }
     }
 
-    public void updateStatus(int taskId, TaskDtoIn taskDtoIn) {
+    public void updateStatus(int taskId, TaskDtoIn taskDtoIn, Authentication authentication) {
         Task task = findById(taskId);
-        if (!"Задание не найдено!".equals(task.getDescription()) && taskDtoIn.getStatusId() != 3) {
-            if (taskDtoIn.getStatusId() != 0) {
-                task.setStatus(Status.findById(taskDtoIn.getStatusId()));
+        if (authentication.getName().equals(task.getExecutor().getEmail())) {
+            if (!"Задание не найдено!".equals(task.getDescription()) && taskDtoIn.getStatusId() != 3) {
+                if (taskDtoIn.getStatusId() != 0) {
+                    task.setStatus(Status.findById(taskDtoIn.getStatusId()));
+                }
+                repository.save(task);
             }
-            repository.save(task);
         }
     }
 
-    public void delete(int id) {
+    public void delete(int id, Authentication authentication) {
         Task task = findById(id);
-        if (!"Задание не найдено!".equals(task.getDescription())) {
-            repository.delete(task);
+        if (authentication.getName().equals(task.getAuthor().getEmail())) {
+            if (!"Задание не найдено!".equals(task.getDescription())) {
+                repository.delete(task);
+            }
         }
     }
 }
