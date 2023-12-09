@@ -1,29 +1,29 @@
 package ru.parfenov.controller;
 
 import lombok.AllArgsConstructor;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
-import ru.parfenov.dto.UserDtoIn;
-import ru.parfenov.dto.UserDtoOut;
-import ru.parfenov.service.UserService;
 
 import java.util.List;
+
+import ru.parfenov.model.Person;
+import ru.parfenov.repository.PersonRepository;
 
 @AllArgsConstructor
 @RestController
 @RequestMapping("/users")
 public class UserController {
-    private final UserService userService;
+    private final PersonRepository persons;
+    private BCryptPasswordEncoder encoder;
 
-    @GetMapping("/all")
-    public List<UserDtoOut> getAllUsers() {
-        return userService.findAll();
+    @PostMapping("/sign-up")
+    public void signUp(@RequestBody Person person) {
+        person.setPassword(encoder.encode(person.getPassword()));
+        persons.save(person);
     }
 
-    @PostMapping("/create")
-    public ResponseEntity<Void> create(@RequestBody UserDtoIn user) {
-        userService.create(user);
-        return new ResponseEntity<>(HttpStatus.OK);
+    @GetMapping("/all")
+    public List<Person> findAll() {
+        return persons.findAll();
     }
 }

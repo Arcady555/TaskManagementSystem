@@ -9,7 +9,6 @@ import ru.parfenov.enums.Status;
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 @Entity
 @Data
@@ -22,7 +21,7 @@ public class Task {
     private int id;
     @ManyToOne
     @JoinColumn(name = "author_id")
-    private User author;
+    private Person author;
     private String description;
     @Column(name = "status_id")
     private Status status;
@@ -30,7 +29,7 @@ public class Task {
     private Priority priority;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "executor_id")
-    private User executor;
+    private Person executor;
     @OneToMany(mappedBy = "task")
     private List<Comment> comments = new ArrayList<>();
 }

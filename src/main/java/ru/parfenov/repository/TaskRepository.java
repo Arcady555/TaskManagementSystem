@@ -10,4 +10,8 @@ import java.util.List;
 public interface TaskRepository extends CrudRepository<Task, Integer> {
     @Override
     List<Task> findAll();
+
+    List<Task> findByAuthorId(int id);
+
+    List<Task> findByExecutorId(int id);
 }

@@ -21,6 +21,16 @@ public class TaskController {
         return taskService.findAll();
     }
 
+    @GetMapping("/author/{personId}")
+    public List<TaskDtoOut> findAllOfAuthor(@PathVariable("personId") int personId) {
+        return taskService.findAllOfAuthor(personId);
+    }
+
+    @GetMapping("/executor/{personId}")
+    public List<TaskDtoOut> findAllOfExecutor(@PathVariable("personId") int personId) {
+        return taskService.findAllOfExecutor(personId);
+    }
+
     @PostMapping("/new")
     public ResponseEntity<Void> create(@RequestBody TaskDtoIn task) {
         taskService.create(task);
@@ -30,6 +40,12 @@ public class TaskController {
     @PutMapping("/{id}/update")
     public ResponseEntity<Void> update(@PathVariable("id") int id, @RequestBody TaskDtoIn task) {
         taskService.update(id, task);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @PutMapping("/{id}/updateStatus")
+    public ResponseEntity<Void> updateOnlyStatus(@PathVariable("id") int id, @RequestBody TaskDtoIn task) {
+        taskService.updateStatus(id, task);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 

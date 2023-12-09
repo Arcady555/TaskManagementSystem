@@ -8,6 +8,7 @@ import ru.parfenov.enums.Priority;
 import ru.parfenov.enums.Status;
 import ru.parfenov.model.Task;
 import ru.parfenov.repository.TaskRepository;
+import ru.parfenov.utility.Utility;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,23 +18,21 @@ import java.util.Optional;
 @AllArgsConstructor
 public class TaskService {
     private final TaskRepository repository;
-    private final UserService userService;
+    private final PersonService personService;
 
     public List<TaskDtoOut> findAll() {
         List<Task> list = repository.findAll();
-        List<TaskDtoOut> listDTO = new ArrayList<>();
-        for (Task task : list) {
-            TaskDtoOut taskDTO = new TaskDtoOut();
-            taskDTO.setId(task.getId());
-            taskDTO.setAuthor(task.getAuthor().getName());
-            taskDTO.setDescription(task.getDescription());
-            taskDTO.setStatus(task.getStatus().getInfo());
-            taskDTO.setPriority(task.getPriority().getInfo());
-            taskDTO.setExecutor(task.getExecutor().getName());
-            taskDTO.setCommentAmount(task.getComments().size());
-            listDTO.add(taskDTO);
-        }
-        return listDTO;
+        return Utility.getTaskOutsFromTasks(list);
+    }
+
+    public List<TaskDtoOut> findAllOfAuthor(int personId) {
+        List<Task> list = repository.findByAuthorId(personId);
+        return Utility.getTaskOutsFromTasks(list);
+    }
+
+    public List<TaskDtoOut> findAllOfExecutor(int personId) {
+        List<Task> list = repository.findByExecutorId(personId);
+        return Utility.getTaskOutsFromTasks(list);
     }
 
     public Task findById(int taskId) {
@@ -52,11 +51,11 @@ public class TaskService {
     public void create(TaskDtoIn taskDtoIn) {
         Task task = new Task(
                 0,
-                userService.findById(taskDtoIn.getAuthorId()),
+                personService.findById(taskDtoIn.getAuthorId()),
                 taskDtoIn.getDescription(),
                 Status.IN_WAIT,
                 Priority.findById(taskDtoIn.getPriorityId()),
-                userService.findById(taskDtoIn.getExecutorId()),
+                personService.findById(taskDtoIn.getExecutorId()),
                 new ArrayList<>()
         );
         repository.save(task);
@@ -75,11 +74,19 @@ public class TaskService {
                 task.setPriority(Priority.findById(taskDtoIn.getPriorityId()));
             }
             if (taskDtoIn.getExecutorId() != 0) {
-                task.setExecutor(userService.findById(taskDtoIn.getExecutorId()));
-                task.setStatus(Status.IN_PROGRESS);
+                task.setExecutor(personService.findById(taskDtoIn.getExecutorId()));
             }
             repository.save(task);
-            System.out.println(taskDtoIn.getStatusId());
+        }
+    }
+
+    public void updateStatus(int taskId, TaskDtoIn taskDtoIn) {
+        Task task = findById(taskId);
+        if (!"Задание не найдено!".equals(task.getDescription()) && taskDtoIn.getStatusId() != 3) {
+            if (taskDtoIn.getStatusId() != 0) {
+                task.setStatus(Status.findById(taskDtoIn.getStatusId()));
+            }
+            repository.save(task);
         }
     }
 
