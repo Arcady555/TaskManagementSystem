@@ -6,6 +6,7 @@ import ru.parfenov.dto.CommentDto;
 import ru.parfenov.model.Comment;
 import ru.parfenov.model.Task;
 import ru.parfenov.repository.CommentRepository;
+import ru.parfenov.utility.Utility;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,15 +31,16 @@ public class CommentService {
         return listDto;
     }
 
-    public Comment create(int taskId, String text) {
-        Task task = taskService.findById(taskId);
-        if (!"Задание не найдено!".equals(task.getDescription())) {
+    public void create(int taskId, String text) {
+        Optional<Task> taskOptional = taskService.findById(taskId);
+        if (taskOptional.isPresent()) {
+            Task task = taskOptional.get();
             Comment comment = new Comment();
             comment.setTask(task);
             comment.setText(text);
-            return repository.save(comment);
+            repository.save(comment);
         } else {
-            return null;
+            throw new IllegalArgumentException(Utility.EXCEPTION_TASK_MASSAGE);
         }
     }
 

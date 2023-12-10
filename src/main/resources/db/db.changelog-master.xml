@@ -8,5 +8,4 @@
     <include file="changelog/01_ddl_create_table_person.xml" relativeToChangelogFile="true"/>
     <include file="changelog/02_ddl_create_table_task.xml" relativeToChangelogFile="true"/>
     <include file="changelog/03_ddl_create_table_comment.xml" relativeToChangelogFile="true"/>
-    <include file="changelog/04_dml_insert_into_person.xml" relativeToChangelogFile="true"/>
 </databaseChangeLog>

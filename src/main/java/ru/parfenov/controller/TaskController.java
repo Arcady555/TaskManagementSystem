@@ -33,8 +33,8 @@ public class TaskController {
     }
 
     @PostMapping("/new")
-    public ResponseEntity<Void> create(@RequestBody TaskDtoIn task) {
-        taskService.create(task);
+    public ResponseEntity<Void> create(@RequestBody TaskDtoIn task, Authentication authentication) {
+        taskService.create(task, authentication);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 

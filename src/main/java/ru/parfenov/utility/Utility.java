@@ -15,6 +15,10 @@ public class Utility {
     public static final String ALL_PERSONS_URL = "/persons/all";
     public static final String TASK_COMMENTS_URL = "/tasks/{id}/comments";
     public static final String TASK_NEW_COMMENT_URL = "/{id}/new_comment";
+    public static final String EXCEPTION_HANDLER_MASSAGE = "Something went wrong))";
+    public static final String EXCEPTION_TASK_MASSAGE = "The task does not exist or is completed!";
+    public static final String EXCEPTION_AUTHOR_MASSAGE = "The author's data is not on the server!";
+    public static final String EXCEPTION_EXECUTOR_MASSAGE = "The executor's data is not on the server!";
 
     public static List<TaskDtoOut> getTaskOutsFromTasks(List<Task> list) {
         List<TaskDtoOut> listDTO = new ArrayList<>();

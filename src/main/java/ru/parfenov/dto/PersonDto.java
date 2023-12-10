@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class PersonDtoOut {
+public class PersonDto {
     private int id;
     private String name;
     private int createdTasks;
