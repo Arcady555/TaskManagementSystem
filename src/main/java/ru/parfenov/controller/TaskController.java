@@ -7,6 +7,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import ru.parfenov.dto.TaskDtoIn;
 import ru.parfenov.dto.TaskDtoOut;
+import ru.parfenov.model.Task;
 import ru.parfenov.service.TaskService;
 
 import java.util.List;
@@ -33,25 +34,25 @@ public class TaskController {
     }
 
     @PostMapping("/new")
-    public ResponseEntity<Void> create(@RequestBody TaskDtoIn task, Authentication authentication) {
-        taskService.create(task, authentication);
-        return new ResponseEntity<>(HttpStatus.CREATED);
+    public ResponseEntity<TaskDtoOut> create(@RequestBody TaskDtoIn taskDtoIn, Authentication authentication) {
+        Task task = taskService.create(taskDtoIn, authentication);
+        return new ResponseEntity<>(taskService.findByIdOut(task.getId()), HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}/update")
-    public ResponseEntity<Void> update(@PathVariable("id") int id,
+    public ResponseEntity<TaskDtoOut> update(@PathVariable("id") int id,
                                        @RequestBody TaskDtoIn task,
                                        Authentication authentication) {
         taskService.update(id, task, authentication);
-        return new ResponseEntity<>(HttpStatus.OK);
+        return new ResponseEntity<>(taskService.findByIdOut(task.getId()), HttpStatus.OK);
     }
 
     @PutMapping("/{id}/updateStatus")
-    public ResponseEntity<Void> updateOnlyStatus(@PathVariable("id") int id,
+    public ResponseEntity<TaskDtoOut> updateOnlyStatus(@PathVariable("id") int id,
                                                  @RequestBody TaskDtoIn task,
                                                  Authentication authentication) {
         taskService.updateStatus(id, task, authentication);
-        return new ResponseEntity<>(HttpStatus.OK);
+        return new ResponseEntity<>(taskService.findByIdOut(task.getId()), HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}/delete")

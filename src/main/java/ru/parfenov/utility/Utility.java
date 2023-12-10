@@ -26,20 +26,25 @@ public class Utility {
     public static List<TaskDtoOut> getTaskOutsFromTasks(List<Task> list) {
         List<TaskDtoOut> listDTO = new ArrayList<>();
         for (Task task : list) {
-            TaskDtoOut taskDTO = new TaskDtoOut();
-            taskDTO.setId(task.getId());
-            taskDTO.setAuthor(task.getAuthor().getName());
-            taskDTO.setDescription(task.getDescription());
-            taskDTO.setStatus(task.getStatus().getInfo());
-            taskDTO.setPriority(task.getPriority().getInfo());
-            if (task.getExecutor() == null) {
-                taskDTO.setExecutor("Не назначен");
-            } else {
-                taskDTO.setExecutor(task.getExecutor().getName());
-            }
-            taskDTO.setCommentAmount(task.getComments().size());
+            TaskDtoOut taskDTO = getTaskOutFromTask(task);
             listDTO.add(taskDTO);
         }
         return listDTO;
+    }
+
+    public static TaskDtoOut getTaskOutFromTask(Task task) {
+        TaskDtoOut taskDTO = new TaskDtoOut();
+        taskDTO.setId(task.getId());
+        taskDTO.setAuthor(task.getAuthor().getName());
+        taskDTO.setDescription(task.getDescription());
+        taskDTO.setStatus(task.getStatus().getInfo());
+        taskDTO.setPriority(task.getPriority().getInfo());
+        if (task.getExecutor() == null) {
+            taskDTO.setExecutor("Не назначен");
+        } else {
+            taskDTO.setExecutor(task.getExecutor().getName());
+        }
+        taskDTO.setCommentAmount(task.getComments().size());
+        return taskDTO;
     }
 }

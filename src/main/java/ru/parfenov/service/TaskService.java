@@ -41,7 +41,12 @@ public class TaskService {
         return repository.findById(taskId);
     }
 
-    public void create(TaskDtoIn taskDtoIn, Authentication authentication) {
+    public TaskDtoOut findByIdOut(int taskId) {
+        Task task = findById(taskId).get();
+        return Utility.getTaskOutFromTask(task);
+    }
+
+    public Task create(TaskDtoIn taskDtoIn, Authentication authentication) {
         Person executor;
         if (personService.findByEmail(authentication.getName()).isEmpty()) {
             throw new IllegalArgumentException(Utility.EXCEPTION_AUTHOR_MASSAGE);
@@ -62,7 +67,7 @@ public class TaskService {
                 executor,
                 new ArrayList<>()
         );
-        repository.save(task);
+        return repository.save(task);
     }
 
     public void update(int taskId, TaskDtoIn taskDtoIn, Authentication authentication) {
