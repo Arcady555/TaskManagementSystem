@@ -42,12 +42,12 @@ public class TaskService {
     }
 
     public void create(TaskDtoIn taskDtoIn, Authentication authentication) {
-        Person executor = new Person();
+        Person executor;
         if (personService.findByEmail(authentication.getName()).isEmpty()) {
             throw new IllegalArgumentException(Utility.EXCEPTION_AUTHOR_MASSAGE);
         }
         if (taskDtoIn.getExecutorId() == 0) {
-            executor.setName("Не назначен");
+            executor = null;
         } else if (taskDtoIn.getExecutorId() != 0 && personService.findById(taskDtoIn.getExecutorId()).isEmpty()) {
             throw new IllegalArgumentException(Utility.EXCEPTION_EXECUTOR_MASSAGE);
         } else {
@@ -86,6 +86,8 @@ public class TaskService {
                     task.setExecutor(personService.findById(taskDtoIn.getExecutorId()).get());
                 }
                 repository.save(task);
+            } else {
+                throw new IllegalArgumentException(Utility.EXCEPTION_RIGHTS_NOT_ENOUGH);
             }
         } else {
             throw new IllegalArgumentException(Utility.EXCEPTION_TASK_MASSAGE);
@@ -101,6 +103,8 @@ public class TaskService {
                     task.setStatus(Status.findById(taskDtoIn.getStatusId()));
                 }
                 repository.save(task);
+            } else {
+                throw new IllegalArgumentException(Utility.EXCEPTION_RIGHTS_NOT_ENOUGH);
             }
         } else {
             throw new IllegalArgumentException(Utility.EXCEPTION_TASK_MASSAGE);
