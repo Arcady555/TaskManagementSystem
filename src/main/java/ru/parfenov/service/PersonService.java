@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import ru.parfenov.dto.PersonDto;
 import ru.parfenov.model.Person;
 import ru.parfenov.repository.PersonRepository;
+import ru.parfenov.utility.Utility;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,11 +20,7 @@ public class PersonService {
         List<Person> list = repository.findAll();
         List<PersonDto> listDTO = new ArrayList<>();
         for (Person person : list) {
-            PersonDto personDto = new PersonDto();
-            personDto.setId(person.getId());
-            personDto.setName(person.getName());
-            personDto.setCreatedTasks(person.getCreatedTasks().size());
-            personDto.setExecuteTasks(person.getExecutedTasks().size());
+            PersonDto personDto = Utility.getPersonDtoFromPerson(person);
             listDTO.add(personDto);
         }
         return listDTO;

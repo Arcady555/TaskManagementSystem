@@ -1,6 +1,8 @@
 package ru.parfenov.utility;
 
+import ru.parfenov.dto.PersonDto;
 import ru.parfenov.dto.TaskDtoOut;
+import ru.parfenov.model.Person;
 import ru.parfenov.model.Task;
 
 import java.util.ArrayList;
@@ -46,5 +48,14 @@ public class Utility {
         }
         taskDTO.setCommentAmount(task.getComments().size());
         return taskDTO;
+    }
+
+    public static PersonDto getPersonDtoFromPerson(Person person) {
+        PersonDto personDto = new PersonDto();
+        personDto.setId(person.getId());
+        personDto.setName(person.getName());
+        personDto.setCreatedTasks(person.getCreatedTasks().size());
+        personDto.setExecuteTasks(person.getExecutedTasks().size());
+        return personDto;
     }
 }
